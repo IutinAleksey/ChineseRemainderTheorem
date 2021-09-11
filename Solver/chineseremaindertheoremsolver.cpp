@@ -7,6 +7,7 @@ ChineseRemainderTheoremSolver::ChineseRemainderTheoremSolver()
 
 void ChineseRemainderTheoremSolver::setBasis(const std::vector<unsigned int> &basis)
 {
+	//TODO: check that basis[i] > 1
 	_basis = basis;
 	unsigned long limit = _basis[0];
 	unsigned long gcd = _basis[0];
@@ -39,29 +40,22 @@ int ChineseRemainderTheoremSolver::calculate(const std::vector<unsigned int> &sa
 	for(;;)
 	{
 		int zeroCounter = 0;
-		for(int i = 0; i < s.size(); ++i)
-		{
-			if(s[i] == 0)
-			{
-				zeroCounter++;
-			}
-		}
-		if(zeroCounter == s.size())
-		{
-			break;
-		}
-
 		unsigned int min = std::numeric_limits<unsigned int>::max();
 		for(int i = 0; i < s.size(); ++i)
 		{
 			if(s[i] == 0)
 			{
+				zeroCounter++;
 				s[i] = _basis[i];
 			}
 			if(s[i] < min)
 			{
 				min = s[i];
 			}
+		}
+		if(zeroCounter == s.size())
+		{
+			break;
 		}
 		res += min;
 		if(res > _limit)
