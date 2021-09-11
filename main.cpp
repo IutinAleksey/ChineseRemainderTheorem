@@ -29,7 +29,14 @@ int main()
 		std::cout << "} ";
 		std::cout << tmp.calculate(sample) << std::endl;
 	}
-	std::cout << "{ 0 1 } " << tmp.calculate({0, 1}) << std::endl;
+	try
+	{
+		std::cout << "{ 0 1 } " << tmp.calculate({0, 1}) << std::endl;
+	}
+	catch (const std::exception &e)
+	{
+		std::cout << "ERROR: " << e.what() << std::endl;
+	}
 	tmp.setBasis({5, 4, 3, 7});
 	for(unsigned int i = 0; i < tmp.limit(); ++i)
 	{

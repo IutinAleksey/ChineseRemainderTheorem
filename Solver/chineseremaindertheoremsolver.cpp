@@ -1,5 +1,7 @@
 #include "chineseremaindertheoremsolver.h"
 
+#include <stdexcept>
+
 ChineseRemainderTheoremSolver::ChineseRemainderTheoremSolver()
 {
 
@@ -7,7 +9,18 @@ ChineseRemainderTheoremSolver::ChineseRemainderTheoremSolver()
 
 void ChineseRemainderTheoremSolver::setBasis(const std::vector<unsigned int> &basis)
 {
-	//TODO: check that basis[i] > 1
+	if(basis.size() < 2)
+	{
+		throw std::length_error("Basis must have length greater than 1");
+	}
+
+	for(const auto item: basis)
+	{
+		if(item < 2)
+		{
+			throw std::domain_error("Basis must have value greater than 1");
+		}
+	}
 	_basis = basis;
 	unsigned long limit = _basis[0];
 	unsigned long gcd = _basis[0];
@@ -24,14 +37,14 @@ int ChineseRemainderTheoremSolver::calculate(const std::vector<unsigned int> &sa
 {
 	if(sample.size() != _basis.size())
 	{
-		return -1;
+		throw std::length_error("Calculated vector must have length same that basis");
 	}
 
 	for(int i = 0; i < _basis.size(); ++i)
 	{
 		if(_basis[i] < sample[i])
 		{
-			return -1;
+			throw std::domain_error("Calculated vector value must be less than appropriate basis value");
 		}
 	}
 	long res = 0;
@@ -60,7 +73,7 @@ int ChineseRemainderTheoremSolver::calculate(const std::vector<unsigned int> &sa
 		res += min;
 		if(res > _limit)
 		{
-			return -1;
+			throw std::domain_error("Calculated vector have incorrect combination");
 		}
 		for(int i = 0; i < s.size(); ++i)
 		{
